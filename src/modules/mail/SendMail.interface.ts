@@ -1,4 +1,4 @@
-export interface SendPartnerInterface {
+export interface SendMailInterface {
     email: string;
     mailName: string;
     subject: string;

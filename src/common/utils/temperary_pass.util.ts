@@ -1,3 +1,4 @@
+// Generate temporary password with uppercase, lowercase, and numbers, length 8.
 export const generateTempPassword = (length = 8): string => {
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let password = '';

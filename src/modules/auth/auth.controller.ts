@@ -25,7 +25,6 @@ export class AuthController {
   async signIn(
     @Body() body: SignInDto
   ){
-    console.log()
     const { email, password } = body;
 
     const data: AccessTokenInterface = await this.authService.signInServ(email, password);
