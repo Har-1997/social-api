@@ -6,7 +6,6 @@ import {
   UnauthorizedException,
   Logger
 } from '@nestjs/common';
-import { DatabaseService } from 'src/modules/database/database.service';
 import { MailService } from '../mail/mail.service';
 import { generateTempPassword } from 'src/common/utils';
 import { UsersService } from '../users/users.service';
@@ -23,7 +22,12 @@ export class AuthService {
     private readonly usersService: UsersService,
   ) {}
 
-  async signUpServ(first_name: string, last_name: string, age: number, email: string) {
+  async signUpServ(first_name: string, last_name: string, age: number, email: string): Promise<string> {
+    const userWithEmail = await this.usersService.getUserWithEmailServ(email);
+    if( userWithEmail ){
+      throw new Error('User with this email already exists!');
+    }
+
     const password = generateTempPassword();
     const hashPass = await bcrypt.hash(password, 10);
 
@@ -41,7 +45,7 @@ export class AuthService {
       throw new InternalServerErrorException('Email send failed');
     }
 
-    const newUser = await this.usersService.createUserServ(first_name, last_name, age, email, hashPass);
+    await this.usersService.createUserServ(first_name, last_name, age, email, hashPass);
 
     return 'User created successfully';
   }

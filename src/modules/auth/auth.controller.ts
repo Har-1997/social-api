@@ -17,7 +17,6 @@ export class AuthController {
     const { first_name, last_name, age, email } = body;
 
     const message = await this.authService.signUpServ(first_name, last_name, age, email);
-
     return { message, success: true };
   }
 
